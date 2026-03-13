@@ -1,0 +1,88 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "FILE=\"$CLAUDE_TOOL_INPUT_FILE_PATH\"; if echo \"$FILE\" | grep -qE '\\.rb$'; then bundle exec rubocop -A \"$FILE\" --fail-level=error 2>/dev/null || true; fi"
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "FILE=\"$CLAUDE_TOOL_INPUT_FILE_PATH\"; if echo \"$FILE\" | grep -qE '\\.erb$'; then bundle exec erb_lint --autocorrect \"$FILE\" 2>/dev/null || true; fi"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "INPUT=$(cat); CMD=$(echo \"$INPUT\" | jq -r '.tool_input.command // \"\"'); if echo \"$CMD\" | grep -qE 'rails db:(drop|reset|seed)' && echo \"$CMD\" | grep -qE '(production|RAILS_ENV=production)'; then echo '{\"decision\": \"block\", \"reason\": \"BLOCKED: Never run destructive DB commands against production.\"}'; fi"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "INPUT=$(cat); CMD=$(echo \"$INPUT\" | jq -r '.tool_input.command // \"\"'); if echo \"$CMD\" | grep -qE 'rm\\s+-rf\\s+/'; then echo '{\"decision\": \"block\", \"reason\": \"BLOCKED: Use trash or be more specific with rm paths.\"}'; fi"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "osascript -e 'display notification \"Claude Code finished\" with title \"Finawise\"' 2>/dev/null || true"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "BRANCH=$(git branch --show-current 2>/dev/null); RUBY_V=$(ruby -v 2>/dev/null | cut -d' ' -f2); RAILS_V=$(bundle exec rails -v 2>/dev/null | cut -d' ' -f2); echo \"{\\\"additionalContext\\\": \\\"Git branch: $BRANCH | Ruby: $RUBY_V | Rails: $RAILS_V\\\"}\""
+          }
+        ]
+      }
+    ]
+  },
+  "permissions": {
+    "allow": [
+      "Bash(bundle exec rspec:*)",
+      "Bash(bundle exec rubocop:*)",
+      "Bash(bundle exec rails test:*)",
+      "Bash(bundle exec rails routes:*)",
+      "Bash(bundle exec rails db:migrate:*)",
+      "Bash(bundle exec rails db:rollback:*)",
+      "Bash(bundle exec rails console:*)",
+      "Bash(bundle exec rake:*)",
+      "Bash(bin/rails:*)",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(find:*)",
+      "Bash(cat:*)",
+      "Bash(grep:*)",
+      "Bash(wc:*)",
+      "Bash(tail:*)",
+      "Bash(head:*)"
+    ]
+  }
+}
