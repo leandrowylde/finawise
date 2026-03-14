@@ -1,0 +1,4 @@
+one:
+  user: one
+  provider: google
+  uid: "google-uid-001"
