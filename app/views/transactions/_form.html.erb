@@ -1,0 +1,66 @@
+<%= form_with model: transaction do |form| %>
+  <% if transaction.errors.any? %>
+    <div class="error-messages">
+      <h2><%= pluralize(transaction.errors.count, "error") %> prevented this transaction from being saved:</h2>
+      <ul>
+        <% transaction.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :transaction_type %>
+    <%= form.select :transaction_type, Transaction::TYPES.map { |t| [t.capitalize, t] },
+        { include_blank: "Select type" }, required: true %>
+  </div>
+
+  <div class="field">
+    <%= form.label :date %>
+    <%= form.date_field :date, required: true %>
+  </div>
+
+  <div class="field">
+    <%= form.label :description %>
+    <%= form.text_field :description, required: true, placeholder: "e.g. Weekly groceries" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :amount %>
+    <%= form.number_field :amount, step: "0.01", min: "0.01", required: true %>
+  </div>
+
+  <div class="field">
+    <%= form.label :currency %>
+    <%= form.text_field :currency, required: true, placeholder: "USD", maxlength: 3 %>
+  </div>
+
+  <div class="field">
+    <%= form.label :account_id, "Account" %>
+    <%= form.collection_select :account_id, current_user_accounts, :id, :name,
+        { include_blank: "Select account" }, required: true %>
+  </div>
+
+  <div class="field">
+    <%= form.label :category_id, "Category" %>
+    <%= form.collection_select :category_id, current_user_categories, :id, :name,
+        { include_blank: "Select category" }, required: true %>
+  </div>
+
+  <div class="field">
+    <%= form.label :status %>
+    <%= form.select :status, Transaction::STATUSES.map { |s| [s.capitalize, s] },
+        { selected: transaction.status || "paid" } %>
+  </div>
+
+  <div class="field">
+    <%= form.label :notes %>
+    <%= form.text_area :notes, rows: 3, placeholder: "Optional notes..." %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+    <%= link_to "Cancel", transactions_path %>
+  </div>
+<% end %>

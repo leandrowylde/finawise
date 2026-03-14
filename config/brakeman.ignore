@@ -1,0 +1,8 @@
+{
+  "ignored_warnings": [
+    {
+      "fingerprint": "6f1d8202bd8973fff0e2d78c409c6681d73ccaa427db044ebcae9a9f2274d594",
+      "note": "transaction_type and status are validated with inclusion: { in: } at the model layer. Not STI — Transaction does not use single table inheritance. status values are user-visible UI choices (pending/paid/scheduled), not privilege levels."
+    }
+  ]
+}

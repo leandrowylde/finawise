@@ -1,0 +1,46 @@
+<div class="transaction-detail">
+  <div class="page-header">
+    <h1><%= @transaction.description %></h1>
+    <div class="actions">
+      <%= link_to "Edit", edit_transaction_path(@transaction), class: "btn" %>
+      <%= button_to "Delete", transaction_path(@transaction), method: :delete,
+          data: { turbo_confirm: "Delete this transaction?" }, class: "btn btn-danger" %>
+      <%= link_to "Back to Transactions", transactions_path, class: "btn btn-secondary" %>
+    </div>
+  </div>
+
+  <dl class="transaction-fields">
+    <dt>Date</dt>
+    <dd><%= l @transaction.date, format: :long %></dd>
+
+    <dt>Type</dt>
+    <dd><%= @transaction.transaction_type.capitalize %></dd>
+
+    <dt>Amount</dt>
+    <dd class="<%= @transaction.income? ? 'amount-positive' : 'amount-negative' %>">
+      <%= @transaction.income? ? "+" : "-" %><%= number_to_currency(@transaction.amount, unit: @transaction.currency) %>
+    </dd>
+
+    <dt>Currency</dt>
+    <dd><%= @transaction.currency %></dd>
+
+    <dt>Status</dt>
+    <dd><%= @transaction.status.capitalize %></dd>
+
+    <dt>Account</dt>
+    <dd><%= @transaction.account.name %></dd>
+
+    <dt>Category</dt>
+    <dd><%= @transaction.category.name %></dd>
+
+    <% if @transaction.notes.present? %>
+      <dt>Notes</dt>
+      <dd><%= @transaction.notes %></dd>
+    <% end %>
+
+    <% if @transaction.exchange_rate.present? %>
+      <dt>Exchange Rate</dt>
+      <dd><%= @transaction.exchange_rate %></dd>
+    <% end %>
+  </dl>
+</div>
