@@ -1,0 +1,16 @@
+food:
+  user: one
+  name: Food & Dining
+  transaction_type: expense
+  predefined: false
+
+salary:
+  user: one
+  name: Salary
+  transaction_type: income
+  predefined: false
+
+system_groceries:
+  name: Groceries
+  transaction_type: expense
+  predefined: true

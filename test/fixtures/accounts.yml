@@ -1,0 +1,13 @@
+checking:
+  user: one
+  name: Main Checking
+  account_type: checking
+  currency: USD
+  balance: 1500.00
+
+savings:
+  user: one
+  name: Emergency Savings
+  account_type: savings
+  currency: USD
+  balance: 5000.00

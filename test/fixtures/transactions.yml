@@ -1,0 +1,29 @@
+grocery_expense:
+  account: checking
+  category: food
+  date: 2026-03-10
+  amount: 85.50
+  currency: USD
+  description: Weekly groceries
+  transaction_type: expense
+  status: paid
+
+salary_income:
+  account: checking
+  category: salary
+  date: 2026-03-01
+  amount: 3000.00
+  currency: USD
+  description: Monthly salary
+  transaction_type: income
+  status: paid
+
+pending_bill:
+  account: checking
+  category: food
+  date: 2026-03-20
+  amount: 120.00
+  currency: USD
+  description: Electricity bill
+  transaction_type: expense
+  status: pending
