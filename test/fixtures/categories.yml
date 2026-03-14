@@ -1,0 +1,46 @@
+# System (predefined) categories — user_id is nil
+housing:
+  name: Housing
+  icon: house
+  color: "#4A90D9"
+  transaction_type: expense
+  predefined: true
+
+food:
+  name: Food & Dining
+  icon: utensils
+  color: "#F5A623"
+  transaction_type: expense
+  predefined: true
+
+salary:
+  name: Salary
+  icon: briefcase
+  color: "#7ED321"
+  transaction_type: income
+  predefined: true
+
+transfer:
+  name: Transfer
+  icon: arrows
+  color: "#9B9B9B"
+  transaction_type: both
+  predefined: true
+
+# Subcategory — parent is housing
+rent:
+  name: Rent
+  icon: key
+  color: "#4A90D9"
+  transaction_type: expense
+  predefined: true
+  parent: housing
+
+# User custom category
+custom_expense:
+  name: Gym
+  icon: dumbbell
+  color: "#FF6B6B"
+  transaction_type: expense
+  predefined: false
+  user: alice
